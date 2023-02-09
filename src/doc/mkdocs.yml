@@ -98,3 +98,4 @@ nav:
       - Installation: guide/installation.md
   - About:
       - Release notes: about/history.md
+  - API:  api/index.md

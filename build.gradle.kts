@@ -1,7 +1,9 @@
 plugins {
     kotlin("multiplatform") version "1.7.21"
-    id("org.jetbrains.dokka") version "1.7.20"
+
     id("com.ncorti.ktfmt.gradle") version "0.11.0"
+
+    id("org.jetbrains.dokka") version "1.7.20"
     id("ru.vyarus.mkdocs") version "3.0.0"
 }
 
@@ -61,6 +63,7 @@ kotlin {
     }
 }
 
+// Formatting
 ktfmt {
     kotlinLangStyle()
 }
@@ -68,4 +71,24 @@ ktfmt {
 tasks.register<com.ncorti.ktfmt.gradle.tasks.KtfmtFormatTask>("ktfmtPrecommit") {
     source = project.fileTree(rootDir)
     include("**/*.kt")
+}
+
+// Documentation
+tasks.withType<org.jetbrains.dokka.gradle.DokkaTask>().configureEach {
+    dokkaSourceSets {
+        named("jvmMain") { // The same name as in Kotlin Multiplatform plugin, so the sources are fetched automatically
+            val markdownFiles = project.kotlin.sourceSets["jvmMain"].kotlin.files.filter { it.extension == "md" }
+            includes.from(markdownFiles)
+//            samples.from("samples/basic.kt", "samples/advanced.kt")
+        }
+    }
+}
+
+
+tasks.dokkaGfm.configure {
+    outputDirectory.set(file("${mkdocs.sourcesDir}/docs/api"))
+}
+
+tasks.mkdocsBuild.configure {
+    dependsOn(tasks.dokkaGfm)
 }
