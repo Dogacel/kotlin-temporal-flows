@@ -7,8 +7,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.takeWhile
 
 /**
- * Takes items from the flow until the given duration has passed.
- * The flow won't terminate if the duration is exceeded, it will just stop emitting items.
+ * Takes items from the flow until the given duration has passed. The flow won't terminate if the
+ * duration is exceeded, it will just stop emitting items.
  *
  * @param T the type of the flow.
  * @param duration the duration to take items for.
