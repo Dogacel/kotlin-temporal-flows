@@ -76,3 +76,4 @@ outTmp/
 /kotlin-native/dist
 kotlin-ide/
 src/doc/docs/api
+.idea
