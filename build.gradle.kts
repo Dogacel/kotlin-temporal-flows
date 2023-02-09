@@ -1,5 +1,6 @@
 plugins {
     kotlin("multiplatform") version "1.7.21"
+    id("org.jetbrains.dokka") version "1.7.20"
 }
 
 group = "dogacel"
@@ -7,6 +8,16 @@ version = "0.0.1"
 
 repositories {
     mavenCentral()
+}
+
+kotlin {
+    sourceSets {
+        commonMain {
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+            }
+        }
+    }
 }
 
 kotlin {
