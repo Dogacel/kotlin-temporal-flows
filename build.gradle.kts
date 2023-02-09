@@ -1,6 +1,8 @@
 plugins {
     kotlin("multiplatform") version "1.7.21"
     id("org.jetbrains.dokka") version "1.7.20"
+    id("com.ncorti.ktfmt.gradle") version "0.11.0"
+    id("ru.vyarus.mkdocs") version "3.0.0"
 }
 
 group = "dogacel"
@@ -8,16 +10,6 @@ version = "0.0.1"
 
 repositories {
     mavenCentral()
-}
-
-kotlin {
-    sourceSets {
-        commonMain {
-            dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-            }
-        }
-    }
 }
 
 kotlin {
@@ -60,5 +52,20 @@ kotlin {
         val jsTest by getting
         val nativeMain by getting
         val nativeTest by getting
+
+        commonMain {
+            dependencies {
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+            }
+        }
     }
+}
+
+ktfmt {
+    kotlinLangStyle()
+}
+
+tasks.register<com.ncorti.ktfmt.gradle.tasks.KtfmtFormatTask>("ktfmtPrecommit") {
+    source = project.fileTree(rootDir)
+    include("**/*.kt")
 }

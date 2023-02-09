@@ -1,10 +1,10 @@
 package dogacel.flow.temporal
 
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.takeWhile
 import java.time.Instant
 import kotlin.time.Duration
 import kotlin.time.toKotlinDuration
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.takeWhile
 
 fun <T> Flow<T>.takeWithin(duration: Duration): Flow<T> {
     val start = Instant.now()
