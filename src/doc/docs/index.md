@@ -1,25 +1,25 @@
-# Welcome to MkDocs
+# Kotlin Temporal Flows
 
-* [mkdocs documentation](http://mkdocs.org).
-* [mkdocs-material documentation](https://squidfunk.github.io/mkdocs-material/).
+This library contains a set of tools to operate Kotlin flows using time based operators inspired
+by [Akka Streams - Timer
+Driven Operators](https://doc.akka.io/docs/akka/current/stream/operators/index.html#timer-driven-operators).
 
-## Project layout
+- For installation, take a look at [Installation Guide](guide/installation.md).
+- For examples, take a look at [Examples](guide/examples.md).
+- For contribution, take a look at [Contribution Guide](guide/contribution.md).
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+To see the full documentation, check our [API Reference](api/index.md).
+## Use Cases
 
-## Gradle tasks
+### Taking elements from a `flow` for a given time
 
-* `mkdocsInit` - Create new mkdocs site (like this).
-* `mkdocsBuild` - Build the documentation site.
-* `mkdocsServe` - Start the live-reloading docs server.
-* `mkdocsPublish` - Publish generated site version to github pages.
+```kotlin
+val dataFlow: Flow<Int> = getFlow(...) // Assume this is some flow that fetches data from other sources async
 
-## Mkdocs native Commands
+val collectedData = dataFlow
+    .takeWithin(10.seconds) // Get data from the flow for at most 10 seconds
+    .toList()
+```
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs help` - Print this help message.
+Note that `takeWithin` will not throw any exceptions or terminate early if the deadlien is met. This method will just
+stop flow from emitting after 10 seconds. For stronger guarantees you can wrap your code using `withTimeout`.

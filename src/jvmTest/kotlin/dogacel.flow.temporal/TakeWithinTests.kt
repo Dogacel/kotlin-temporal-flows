@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Timeout
 class TakeWithinTests {
     @Test
     @Timeout(20)
-    fun testTakeWithin() {
+    fun testTakeWithinSuccess() {
         val testFlow: Flow<Int> =
             flow {
                     while (true) {
